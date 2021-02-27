@@ -1,44 +1,70 @@
 # Autonomous Bumper Cars
 
 ## Introduction
-The age-old carnival game has fallen out of favor, but it can be brought into the 21st century.  Some of the bumper cars will be fully autonomous, and they will do their best to avoid getting hit by the human drivers.  To make things more interesting, the human drivers will get a reward for hitting an autonomous car, while the autonomous car will get a reward for avoiding the human driver.
+
+We propose to bring bumper cars into the 21st century by simulating the carnival game with autonomous vehicles in a closed arena.  The challenges include friend-or-foe determination, path planning, obstacle avoidance, and score maximization strategies.  Vehicles shall receive points for hitting other vehicles and lose points for being hit.  Head-to-head collisions won't score.  The best case outcome will include the ability for humans to challenge the AIs.
 
 ## Project Goal
-A bumper car arena is a closed area in a rectangular shape with rounded corners (to prevent a car from getting stuck).  There are multiple bumper cars within the arena.  During the session, all cars are moving, though they have no particular place that they need to go.  Many participants aim to run their cars into as many other cars as possible, while some participants try to drive around the arena and not get hit.  The goal of our autonomous bumper cars are to not get hit, though some of the autonomous bumper cars may be set to try to hit others (to make the simulated arena more interesting).  The autonomous bumper car must always be in motion, traveling somewhere within the arena.  It must plot a course that will allow it to avoid being hit.  We may discover strategies for movement that increase the ability to avoid other vehicles acting adversarial to it.
+
+### Basic Goal
+
+The bumper car arena shall be rectangular with rounded corners to prevent cars from getting stuck, and the arena shall contain 2 or more bumper cars that start at random locations and headings.  Each game lasts for a predetermined length of time.  The arena shall contain various obstacles (polls, boxes, etc.) to make the game more interesting.
+
+In the simplest case:
+
+* All cars are a team of one.  Each car attempts to maximize its score, and the car with the highest score wins.
+* At any moment, a given car is in the "attack" state or the "defend" state.  (TODO - Criteria for selecting state?)
+  * attack - The car drives directly towards its target.  (TODO - What if the target goes behind an obstacle?)
+  * defend - The car drives 45 degrees to either side of the ray cast from the attacker through the defender.  This maximizes the the rate of change of distance.
+
+### Extended Goals
+
+Resources permiting, we might attempt to implement some or all of these additional functionalities:
+
+- [ ] [Target motion](https://en.wikipedia.org/wiki/Target_Motion_Analysis) or [target angle](https://en.wikipedia.org/wiki/Target_angle) analysis to determine foe position and velocity.  This enables intercepting the foe at its future position rather than just pointing its current position.
+- [ ] Human interaction - Allow people to play against the bots.
+- [ ] Teams with individual maximization - Allow for the organizaiton of cars into 2 or more teams.  Cars should not attack members of their own team.  Each car tries to maximize its score, and the team with the highest aggregate score wins.
+- [ ] Teams with team maximization - As above, but cars coordinate to maximize the team score rather than their individual score.
+- [ ] Testing with physical agents (JetBots, etc.)
+- [ ] Reinforcement learning to create AIs that execute the given strategy with maximum effect
 
 ## Level of Autonomy
-The autonomous bumper cars will operate under level 5 autonomy.  Bumper cars operate at relatively low speeds within a closed arena and the cars have bumpers and safety equipment that allow collisions to be non-damaging.  While this project will use a simulator, we envision the ability to place the solution within existing bumper car installations.  Humans will be attracted to and will to pay for the opportunity to crash into "robots" and exert their dominance.  This innocent, profitable fun will allow different approaches to collision avoidance to be tested under extreme conditions and the learnings can be applied to actual vehicles running on public roads.
+
+The bumper cars will operate under level 5 autonomy.  Opportunities for deployment include:
+
+* Existing bumper car facilities with few patrons - The game is more fun if more than a few players are involved.
+* Target motion analysis (TMA), if implemented, has obvious military applications.  Submarines, for example, rely on TMA to determine a firing solution without divulging own-ship's position.  Aerial vehicles could do the same.
 
 ## Description
-Existing bumper cars get their electricity using a pole mounted to the rear of the car, as can be seen in the following photo:
-![Bumper car arena - source Popular Mechanics](bumper-car.jpg "Bumper car arena - source Popular Mechanics")
-Our bumper cars will mount a set of cameras near the top of the pole, with the cameras arranged to allow a 360 degree view of the surroundings.
 
-When all vehicles are in motion, the arena is pure chaos as vehicles travel in any direction and can change trajectory at any time.  Our vehicles will identify all other bumper cars and attempt to guess at the path that they will take.  Our vehicles will plot a path to take that avoids collisions, but the path will need to be adjusted continuously.
+This project is most likely to be purely based on simulation.  Each bumper car will have 3 or more cameras to provide 360 degrees of vision coverage.  Cars shall not have any other sensors.  This provides for the easiest transition to physical agents, should that opportunity arise.
 
--- Be as specific as possible and use diagrams.
--- Lane following with collision avoidance, solving intersections, etc.
--- System overview
--- Present a tentative architecture of the application or diagram to describe your system.  Something can easily describe what the system does.  Inputs, processing, outputs.
+Agents shall process the camera inputs using neural networks and use ROS for path planning.
 
 ## Related Work
+
 -- Mention any projects that inspired this project; do research about other current solutions that can help you
 
 ## Team Organization
-### Brian Bauer
-### David Kalbfleisch
+
+* Brian Bauer
+* David Kalbfleisch
 
 ## Software and Development Tools
-We will share a private GitHub repository and use it to plan, design, code and document our progress.
+
+* GitHub - to coordinate development
+* Gazebo - simulation
+* Blender & Gimp - to construct 3D models
+* ROS - planning, reinforcement learning, and other AI logic
 
 ## Milestones
-### 8 March 2021
-Environment set up with arbitrary number of vehicles present (vehicles may be operated by robots or humans)
-### 22 March 2021
-Robots can identify other vehicles and plot course to avoid all other vehicles
-### 5 April 2021
-Robots can predict movement of other vehicles and incorporate expected movement into avoidance plan
-### 19 April 2021
-Some of the robots may be deployed with the desire to hit other vehicles
-### 3 May 2021
-Presentation of results
+
+- [ ] 15 March 2021: 3D arena and car models created
+- [ ] 22 March 2021: Robots can identify other vehicles and plot course to avoid all other vehicles
+- [ ] 5 April 2021: Robots can predict movement of other vehicles and incorporate expected movement into avoidance plan
+- [ ] 19 April 2021: Some of the robots may be deployed with the desire to hit other vehicles
+- [ ] 3 May 2021: Presentation of results
+
+## References
+
+* [Gazebo - ROS 2 integration overview](http://gazebosim.org/tutorials?tut=ros2_overview)
