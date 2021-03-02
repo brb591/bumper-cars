@@ -15,7 +15,7 @@ In the simplest case:
 * All cars are a team of one.  Each car attempts to maximize its score, and the car with the highest score wins.
 * At any moment, a given car is in the "attack" state or the "defend" state.  (TODO - Criteria for selecting state?)
   * attack - The car drives directly towards its target.  (TODO - What if the target goes behind an obstacle?)
-  * defend - The car drives 45 degrees to either side of the ray cast from the attacker through the defender.  This maximizes the the rate of change of distance.
+  * defend - The car drives 45 degrees to either side of the ray cast from the attacker through the defender.  This maximizes the rate of change of distance.
 
 ### Extended Goals
 
@@ -27,6 +27,7 @@ Resources permiting, we might attempt to implement some or all of these addition
 - [ ] Teams with team maximization - As above, but cars coordinate to maximize the team score rather than their individual score.
 - [ ] Testing with physical agents (JetBots, etc.)
 - [ ] Reinforcement learning to create AIs that execute the given strategy with maximum effect
+- [ ] The arena can include raised lane delineators in some areas.  Not hitting them is similar to the white road lane line following problem.
 
 ## Level of Autonomy
 
@@ -49,6 +50,7 @@ Agents shall process the camera inputs using neural networks and use ROS for pat
 
 * Brian Bauer
 * David Kalbfleisch
+* Iman Ismail
 
 ## Software and Development Tools
 
