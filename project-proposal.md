@@ -42,10 +42,6 @@ This project is most likely to be purely based on simulation.  Each bumper car w
 
 Agents shall process the camera inputs using neural networks and use ROS for path planning.
 
-## Related Work
-
--- Mention any projects that inspired this project; do research about other current solutions that can help you
-
 ## Team Organization
 
 * Brian Bauer
