@@ -31,7 +31,7 @@
       </link>
 
       <link name='left_wheel'>
-        <pose>0.554283 0.625029 -0.025 -1.5707 0 0</pose>
+        <pose>-1.854282 0.625029 -0.025 -1.5707 0 0</pose>
         <inertial>
           <mass>2</mass>
           <inertia>
@@ -80,7 +80,7 @@
       </link>
 
       <link name='right_wheel'>
-        <pose>0.554282 -0.625029 -0.025 -1.5707 0 0</pose>
+        <pose>-1.854282 -0.625029 -0.025 -1.5707 0 0</pose>
         <inertial>
           <mass>2</mass>
           <inertia>
@@ -129,7 +129,7 @@
       </link>
 
       <link name='caster'>
-        <pose>-0.957138 -0 -0.125 0 -0 0</pose>
+        <pose>-2.457138 -0 -0.125 0 -0 0</pose>
         <inertial>
           <mass>1</mass>
           <inertia>
