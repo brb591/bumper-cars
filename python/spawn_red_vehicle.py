@@ -6,7 +6,6 @@ from ament_index_python.packages import get_package_share_directory
 from gazebo_msgs.srv import SpawnEntity
 
 def main():
-    """ Main for spwaning turtlebot node """
     # Get input arguments from user
     argv = sys.argv[1:]
 
@@ -23,7 +22,8 @@ def main():
         client.wait_for_service()
         node.get_logger().info("...connected!")
     
-    sdf_file_path = os.path.join("red-vehicle", "model.sdf")# Set data for request
+    sdf_file_path = os.path.join("..", "models", "red-vehicle", "model.sdf")
+    print(sdf_file_path)
     
     request = SpawnEntity.Request()
     request.name = argv[0]

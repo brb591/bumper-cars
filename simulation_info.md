@@ -24,3 +24,9 @@ ros2 topic pub /red1/cmd_redcar geometry_msgs/Twist '{linear: {x: 1.0}}' -1
 source /opt/ros/foxy/setup.bash
 ros2 topic pub /red2/cmd_redcar geometry_msgs/Twist '{angular: {z: 0.25}}' -1
 ```
+
+### Turn and move at the same time
+```
+source /opt/ros/foxy/setup.bash
+ros2 topic pub /lb2/cmd_lblue geometry_msgs/Twist '{linear: {x: 1.0}, angular: {z: 0.25}}' -1
+```
