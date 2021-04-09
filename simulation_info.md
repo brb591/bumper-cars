@@ -8,10 +8,13 @@ gazebo --verbose -s libgazebo_ros_factory.so
 ## In another window
 ```
 source /opt/ros/foxy/setup.bash
-cd models
+cd python
 python3 spawn_red_vehicle.py "redcar1" "/red1" 0 0 0
 python3 spawn_red_vehicle.py "redcar2" "/red2" 0 5 0
 python3 spawn_red_vehicle.py "redcar3" "/red3" 0 -5 0
+python3 spawn_light_blue.py "lb1" "/lb1" 0 -5 0
+python3 spawn_light_blue.py "lb2" "/lb2" 3 5 0
+python3 spawn_light_blue.py "lb3" "/lb3" -3 0 0
 ```
 ## Sending commands to specific cars
 ### Make the first car go forward

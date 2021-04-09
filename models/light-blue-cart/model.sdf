@@ -1,28 +1,28 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
     <model name="light-blue-cart">
-        <pose>0 0 0.18 0 0 0</pose>
-        <link name="cart">
-            <inertial>
-                <mass>50</mass>
-            </inertial>
-            <visual name="visual">
-                <geometry>
-                    <mesh><uri>file://light-blue-cart/meshes/TorusCart_lightblue_red.dae</uri></mesh>
-                </geometry>
-            </visual>
-            <collision name="collision-cart">
-                <pose>0 0 0.25 0 0 0</pose>
-                <geometry>
-                    <cylinder>
-                        <radius>0.6</radius>
-                        <length>0.75</length>
-                    </cylinder>
-                </geometry>
-            </collision>
-        </link>
+      <pose>0 0 0.18 0 0 0</pose>
+      <link name="cart">
+          <inertial>
+              <mass>50</mass>
+          </inertial>
+          <visual name="visual">
+              <geometry>
+                  <mesh><uri>file://light-blue-cart/meshes/TorusCart_lightblue_red.dae</uri></mesh>
+              </geometry>
+          </visual>
+          <collision name="collision-cart">
+              <pose>0 0 0.25 0 0 0</pose>
+              <geometry>
+                  <cylinder>
+                      <radius>0.6</radius>
+                      <length>0.75</length>
+                  </cylinder>
+              </geometry>
+          </collision>
+      </link>
 
-        <link name='caster'>
+      <link name='caster'>
         <pose>-0.5 0 -0.09 0 0 0</pose>
         <inertial>
           <mass>1</mass>
@@ -147,6 +147,40 @@
             </contact>
           </surface>
         </collision>
+      </link>
+    
+      <link name='camera'>
+        <pose>0 0 0.3 0 0 0</pose>
+        <sensor type="camera" name="camera1">
+          <always_on>true</always_on>
+          <update_rate>12</update_rate>
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>800</width>
+              <height>800</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>300</far>
+            </clip>
+          </camera>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>0.0</updateRate>
+            <cameraName>iris/camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera_link</frameName>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+          </plugin>
+        </sensor>
       </link>
 
       <joint name='left_wheel_joint' type='revolute'>
