@@ -33,3 +33,17 @@ ros2 topic pub /red2/cmd_redcar geometry_msgs/Twist '{angular: {z: 0.25}}' -1
 source /opt/ros/foxy/setup.bash
 ros2 topic pub /lb2/cmd_lblue geometry_msgs/Twist '{linear: {x: 1.0}, angular: {z: 0.25}}' -1
 ```
+
+ros2 topic pub /lb1/cmd_lblue geometry_msgs/Twist '{angular: {z: 0.5}}' -1
+ros2 topic pub /lb2/cmd_lblue geometry_msgs/Twist '{angular: {z: -1.0}}' -1
+ros2 topic pub /lb3/cmd_lblue geometry_msgs/Twist '{angular: {z: -0.25}}' -1
+
+ros2 topic pub /lb1/cmd_lblue geometry_msgs/Twist '{linear: {x: 0.1}}' -1
+
+ros2 topic list -t
+
+## View the onboard camera from a specific cart
+The first argument is the vehicle name, the second is the camera topic
+```
+python3 consume_camera.py lb1 camera1/image_raw
+```
