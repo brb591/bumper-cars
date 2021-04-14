@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+    <model name="arena">
+      <pose>0 0 0 0 0 0</pose>
+      <link name="cart">
+          <inertial>
+              <mass>50</mass>
+          </inertial>
+          <visual name="visual">
+              <geometry>
+                  <mesh><uri>file://arena/meshes/arena.dae</uri></mesh>
+              </geometry>
+          </visual>
+          <collision name="collision-cart">
+              <pose>0 0 0 0 0 0</pose>
+              <geometry>
+                  <polyline>
+                      <point>0,5 3,5</point>
+                      <height>1.0</height>
+                  </polyline>
+              </geometry>
+          </collision>
+      </link>
+    </model>
+</sdf>
