@@ -140,7 +140,7 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Torus_004" name="Torus.004" type="NODE">
-        <matrix sid="transform">1 0 0 -2 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
         <instance_geometry url="#Torus_001-mesh" name="Torus.004">
           <bind_material>
             <technique_common>

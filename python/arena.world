@@ -1,0 +1,89 @@
+<sdf version="1.6">
+    <world name="arena">
+        <include>
+        <uri>model://sun</uri>
+        </include>
+
+        <model name="arena">
+            <pose>0 0 0 0 0 0</pose>
+            <static>true</static>
+            <link name="north-wall">
+                <pose>10.125 0 0 0 0 0</pose>
+                <collision name="collision">
+                    <geometry><box><size>0.25 30 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.25 30 2</size></box></geometry>
+                </visual>
+            </link>
+            <link name="south-wall">
+                <pose>-10.125 0 0 0 0 0</pose>
+                <collision name="collision">
+                    <geometry><box><size>0.25 30 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.25 30 2</size></box></geometry>
+                </visual>
+            </link>
+            <link name="east-wall">
+                <pose>0 -20.125 0 0 0 0</pose>
+                <collision name="collision">
+                    <geometry><box><size>10 0.25 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>10 0.25 2</size></box></geometry>
+                </visual>
+            </link>
+            <link name="west-wall">
+                <pose>0 20.125 0 0 0 0</pose>
+                <collision name="collision">
+                    <geometry><box><size>10 0.25 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>10 0.25 2</size></box></geometry>
+                </visual>
+            </link>
+            <link name="northwest-corner-wall">
+                <pose>7.5625 17.5625 0 0 0 0.785375</pose>
+                <collision name="collision">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </visual>
+            </link>
+            <link name="northeast-corner-wall">
+                <pose>7.5625 -17.5625 0 0 0 5.497625</pose>
+                <collision name="collision">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </visual>
+            </link>
+            <link name="southwest-corner-wall">
+                <pose>-7.5625 17.5625 0 0 0 2.356125</pose>
+                <collision name="collision">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </visual>
+            </link>
+            <link name="southeast-corner-wall">
+                <pose>-7.5625 -17.5625 0 0 0 3.926875</pose>
+                <collision name="collision">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry><box><size>0.25 7.07 2</size></box></geometry>
+                </visual>
+            </link>
+        </model>
+    </world>
+    <plugin name="factory" filename="libgazebo_ros_factory.so">
+        <ros>
+            <namespace>/</namespace>
+        </ros>
+    </plugin>
+</sdf>

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
-    <model name="light-blue-cart">
+    <model name="bumper-car">
       <pose>0 0 0.18 0 0 0</pose>
       <link name="cart">
           <inertial>
@@ -8,7 +8,7 @@
           </inertial>
           <visual name="visual">
               <geometry>
-                  <mesh><uri>file://light-blue-cart/meshes/TorusCart_lightblue_red.dae</uri></mesh>
+                  <mesh><uri>model://bumper-car/meshes/TorusCart_lightblue_red.dae</uri></mesh>
               </geometry>
           </visual>
           <collision name="collision-cart">
@@ -217,9 +217,9 @@
       <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
 
         <ros>
-          <namespace>/lblue</namespace>
-          <remapping>cmd_vel:=cmd_lblue</remapping>
-          <remapping>odom:=odom_lblue</remapping>
+          <namespace>/car</namespace>
+          <remapping>cmd_vel:=cmd_car</remapping>
+          <remapping>odom:=odom_car</remapping>
         </ros>
 
         <!-- wheels -->
@@ -239,7 +239,7 @@
         <publish_odom_tf>true</publish_odom_tf>
         <publish_wheel_tf>true</publish_wheel_tf>
 
-        <odometry_frame>odom_red</odometry_frame>
+        <odometry_frame>odom</odometry_frame>
         <robot_base_frame>chassis</robot_base_frame>
 
       </plugin>
