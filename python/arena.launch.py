@@ -20,16 +20,32 @@ def generate_launch_description():
         ExecuteProcess(
             cmd=['python3', 'create_arena.py'],
             output='screen'),
+
         ExecuteProcess(
             cmd=['python3', 'spawn_bumper_car.py', 'lightblue_red', 'a_team_cart1', '/a_team_cart1', '0', '-5', '0'],
             output='screen'),
         ExecuteProcess(
+            cmd=['python3', 'bumper_car_controller.py', 'a_team_cart1', 'a_team'],
+            output='screen'),
+
+        ExecuteProcess(
             cmd=['python3', 'spawn_bumper_car.py', 'lime_darkblue', 'a_team_cart2', '/a_team_cart2', '0', '5', '0'],
             output='screen'),
+        ExecuteProcess(
+            cmd=['python3', 'bumper_car_controller.py', 'a_team_cart2', 'a_team'],
+            output='screen'),
+
         ExecuteProcess(
             cmd=['python3', 'spawn_bumper_car.py', 'lime_yellow', 'b_team_cart1', '/b_team_cart1', '5', '0', '0'],
             output='screen'),
         ExecuteProcess(
+            cmd=['python3', 'bumper_car_controller.py', 'b_team_cart1', 'b_team'],
+            output='screen'),
+
+        ExecuteProcess(
             cmd=['python3', 'spawn_bumper_car.py', 'red_darkblue', 'b_team_cart2', '/b_team_cart2', '-5', '0', '0'],
+            output='screen'),
+        ExecuteProcess(
+            cmd=['python3', 'bumper_car_controller.py', 'b_team_cart2', 'b_team'],
             output='screen'),
     ])
