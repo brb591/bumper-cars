@@ -1,6 +1,6 @@
 # Create a Gazebo world with multiple cars
 
-## Start the arena and populate the bumper cars
+## Start the simulation: create the arena and populate the bumper cars
 The current launch file creates 4 bumper cars, one of each color.  The bumper cars are placed on two different teams.
 ```
 cd python
@@ -10,8 +10,6 @@ ros2 launch arena.launch.py
 ```
 ## Start the game
 The cars are set to inactive by default.  They do nothing until they are made active.  This program sends a ```begin_game``` message to the ```arena/notifications``` topic, which all cars receive at the same time.  This makes them active and they will then start processing the camera feed.
-
-As of right now, you have to hit CTRL-C to make this stop after 5-10 seconds.  This will need to be fixed so it runs and then exits on its own.
 ```
 python3 start_game_feed.py
 ```
@@ -23,6 +21,19 @@ python3 view_camera_feed.py a_team_cart2 camera1
 python3 view_camera_feed.py b_team_cart1 camera1
 python3 view_camera_feed.py b_team_cart2 camera1
 ```
+## Stop the game
+The cars are set back to inactive state.  They will stop moving and stop processing camera frames
+```
+python3 stop_game_feed.py
+```
+## Make the bumper car controllers stop running
+This will cause the python programs running the controller software to stop running.  It is important to do this before quitting the simulation.  For some reason, quitting the simulation does not cause the controllers to shutdown automatically.
+```
+python3 shutdown_controllers.py
+```
+## Quit the simulation
+Quitting Gazebo will make the simulation end.  For some reason, hitting ```CTRL-C``` in the terminal window that you used to start the simulation will not kill the ```gzserver``` process, even though it should.
+
 ## Make a bumper car move
 ```
 ros2 topic pub /b_team_cart1/cmd_car geometry_msgs/Twist '{linear: {x: -0.3}, angular: {z: -0.15}}' -1

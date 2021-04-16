@@ -27,6 +27,7 @@ class BumperCarController(Node):
             self.notification_callback,
             10)
         self.notification_subscription
+        self.get_logger().info('Subscribed to /arena/notifications')
 
         # Subscribe to the frontal camera
         self.camera1_subscription = self.create_subscription(
@@ -35,15 +36,18 @@ class BumperCarController(Node):
             self.camera1_callback,
             qos_profile_sensor_data)
         self.camera1_subscription
+        self.get_logger().info('Subscribed to camera1/image_raw')
 
     # Called when the arena sends a notification to all bumper cars
     def notification_callback(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
         if msg.data == 'begin_game':
             self.active = True
         elif msg.data == 'end_game':
             self.active = False
             # TODO - stop the cart and stop processing new frames
+        elif msg.data == 'shutdown':
+            self.get_logger().info('Shutting Down!')
+            rclpy.utilities.try_shutdown()
 
     # Called when the frontal camera receives a frame
     def camera1_callback(self, data):
@@ -52,12 +56,11 @@ class BumperCarController(Node):
         # Process the frame
         if self.active == True:
             self.process()
-        else:
-            self.get_logger().info('Ignoring Camera Frame')
     
     # Process the current camera frame(s) and take action
     def process(self):
-        self.get_logger().info('Processing Camera Frame')
+        #self.get_logger().info('Processing Camera Frame')
+        return
 
 
 def main(args=None):
@@ -70,8 +73,9 @@ def main(args=None):
 
     rclpy.spin(bumper_car)
 
+    print('Destroying Node')
     bumper_car.destroy_node()
-    rclpy.shutdown()
+    rclpy.utilities.try_shutdown()
 
 
 if __name__ == '__main__':

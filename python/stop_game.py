@@ -17,7 +17,7 @@ class MinimalPublisher(Node):
 
     def timer_callback(self):
         msg = String()
-        msg.data = 'begin_game'
+        msg.data = 'end_game'
         self.publisher_.publish(msg)
         self.counter += 1
         if self.counter > 10:
