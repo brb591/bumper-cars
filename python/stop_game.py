@@ -31,7 +31,6 @@ def main(args=None):
 
     rclpy.spin(minimal_publisher)
 
-    print('Destroying Node')
     minimal_publisher.destroy_node()
     rclpy.utilities.try_shutdown()
 

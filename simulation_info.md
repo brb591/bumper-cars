@@ -4,12 +4,12 @@
 The current launch file creates 4 bumper cars, one of each color.  The bumper cars are placed on two different teams.
 ```
 cd python
-export BUMPER_CAR_MODEL_PATH=/mnt/c/Users/bbaue/Downloads/dev/bumper-cars/models
+export BUMPER_CAR_MODEL_PATH=<The path of the model directory on your computer!>
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$BUMPER_CAR_MODEL_PATH
 ros2 launch arena.launch.py
 ```
 ## Start the game
-The cars are set to inactive by default.  They do nothing until they are made active.  This program sends a ```begin_game``` message to the ```arena/notifications``` topic, which all cars receive at the same time.  This makes them active and they will then start processing the camera feed.
+The cars are set to inactive by default.  They do nothing until they are made active.  This program sends a ```begin_game``` message to the ```arena/notifications``` topic, which all cars receive at the same time.  This makes them active and they will then start processing the camera feed.  The code, as written, will make each car randomly make movements.  This should be replaced by actual code to process the camera feed and react to it.
 ```
 python3 start_game_feed.py
 ```
@@ -33,8 +33,3 @@ python3 shutdown_controllers.py
 ```
 ## Quit the simulation
 Quitting Gazebo will make the simulation end.  For some reason, hitting ```CTRL-C``` in the terminal window that you used to start the simulation will not kill the ```gzserver``` process, even though it should.
-
-## Make a bumper car move
-```
-ros2 topic pub /b_team_cart1/cmd_car geometry_msgs/Twist '{linear: {x: -0.3}, angular: {z: -0.15}}' -1
-```
