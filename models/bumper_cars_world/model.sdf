@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+    <world name="bumper cars world">
+        <light name="sun" type="directional">
+            <pose>7.36201 5.95972 14.0852 -0.79 0.34 -0.33</pose>
+            <cast_shadows>1</cast_shadows>
+        </light>
+
+        <scene>
+            <ambient>0.51 0.51 0.51 1</ambient>
+            <background>0.51 0.51 0.51 1</background>
+        </scene>
+
+        <!-- Include the arena and 4 carts of different colors. -->
+
+        <include>
+            <uri>model://arena</uri>
+        </include>
+
+        <include>
+            <uri>model://TorusCart_red_darkblue</uri>
+            <pose>-2 0 0 0 -0 3.1414</pose>
+        </include>
+
+        <include>
+            <uri>model://TorusCart_lightblue_red</uri>
+            <pose>0 0 0 0 -0 1.5707</pose>
+        </include>
+
+        <include>
+            <uri>model://TorusCart_lime_yellow</uri>
+            <pose>2 0 0 0 -0 -1.5707</pose>
+        </include>
+
+        <include>
+            <uri>model://TorusCart_lime_darkblue</uri>
+            <pose>4 0 0 0 -0 0</pose>
+        </include>
+    </world>
+</sdf>

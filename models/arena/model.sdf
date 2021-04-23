@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+    <model name="arena">
+        <static>1</static>
+
+        <link name="arena link">
+            <gravity>0</gravity>
+
+            <visual name="visual arena">
+                <geometry>
+                    <mesh><uri>meshes/arena.dae</uri></mesh>
+                </geometry>
+            </visual>
+
+            <collision name="collision arena">
+                <geometry>
+                    <mesh><uri>meshes/arena.dae</uri></mesh>
+                </geometry>
+            </collision>
+        </link>
+    </model>
+</sdf>

@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+    <model name="torus cart wheels">
+        <link name="left wheel">
+            <pose>0.362570 0.343895 0.06 1.5707 -0 0</pose>
+            <gravity>0</gravity>
+
+            <inertial>
+                <inertia>
+                    <ixx>0.00224878</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.00224878</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.00364675</izz>
+                </inertia>
+            </inertial>
+
+            <visual name="visual left wheel">
+                <cast_shadows>0</cast_shadows>
+
+                <geometry>
+                    <cylinder>
+                        <radius>0.06</radius>
+                        <length>0.071448</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+
+            <collision name="collision left wheel">
+                <geometry>
+                    <cylinder>
+                        <radius>0.06</radius>
+                        <length>0.071448</length>
+                    </cylinder>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="right wheel">
+            <pose>0.362570 -0.343895 0.06 1.5707 -0 0</pose>
+            <gravity>0</gravity>
+
+            <inertial>
+                <inertia>
+                    <ixx>0.00224878</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.00224878</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.00364675</izz>
+                </inertia>
+            </inertial>
+
+            <visual name="visual right wheel">
+                <cast_shadows>0</cast_shadows>
+
+                <geometry>
+                    <cylinder>
+                        <radius>0.06</radius>
+                        <length>0.071448</length>
+                    </cylinder>
+                </geometry>
+            </visual>
+
+            <collision name="collision right wheel">
+                <geometry>
+                    <cylinder>
+                        <radius>0.06</radius>
+                        <length>0.071448</length>
+                    </cylinder>
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="rear wheel">
+            <pose>-0.5 0 0.06 0 -0 0</pose>
+            <gravity>0</gravity>
+
+            <visual name="visual rear wheel">
+                <cast_shadows>0</cast_shadows>
+
+                <geometry>
+                    <sphere>
+                        <radius>0.06</radius>
+                    </sphere>
+                </geometry>
+            </visual>
+
+            <collision name="collision rear wheel">
+                <geometry>
+                    <sphere>
+                        <radius>0.06</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+        </link>
+    </model>
+</sdf>
