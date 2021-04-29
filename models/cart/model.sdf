@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+    <model name="TorusCart">
+        <link name="cart">
+            <pose>0 0 0.02 0 -0 0</pose>
+            <inertial><mass>50</mass></inertial>
+
+            <visual name="visual cart">
+                <geometry>
+                    <mesh><uri>model://cart/meshes/TorusCart_red_darkblue.dae</uri></mesh>
+                </geometry>
+            </visual>
+
+            <collision name="collision cart">
+                <pose>0 0 0.313281 0 -0 0</pose>
+                <geometry>
+                    <cylinder>
+                        <radius>0.65</radius>
+                        <length>0.626562</length>
+                    </cylinder>
+                </geometry>
+            </collision>
+        </link>
+
+        <!-- Include 2 cylindrical wheels and a caster ball. -->
+        <include>
+            <uri>model://torus_cart_wheels</uri>
+            <name>wheels</name>
+        </include>
+
+        <joint name="left_wheel_joint" type="revolute">
+            <parent>cart</parent>
+            <child>wheels::left_wheel</child>
+            <axis>
+                <xyz>0 0 1</xyz>
+            </axis>
+        </joint>
+
+        <joint name="right_wheel_joint" type="revolute">
+            <parent>cart</parent>
+            <child>wheels::right_wheel</child>
+            <axis>
+                <xyz>0 0 1</xyz>
+            </axis>
+        </joint>
+
+        <joint name="rear_wheel" type="ball">
+            <parent>cart</parent>
+            <child>wheels::rear_wheel</child>
+        </joint>
+
+        <plugin name="diff_drive" filename="libgazebo_ros_diff_drive.so">
+            <ros>
+                <namespace>/car</namespace>
+                <remapping>cmd_vel:=cmd_car</remapping>
+                <remapping>odom:=odom_car</remapping>
+            </ros>
+
+            <!-- wheels -->
+            <left_joint>left_wheel_joint</left_joint>
+            <right_joint>right_wheel_joint</right_joint>
+
+            <!-- kinematics -->
+            <wheel_separation>1.25</wheel_separation>
+            <wheel_diameter>0.2</wheel_diameter>
+
+            <!-- limits -->
+            <max_wheel_torque>20</max_wheel_torque>
+            <max_wheel_acceleration>1.0</max_wheel_acceleration>
+
+            <!-- output -->
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_wheel_tf>true</publish_wheel_tf>
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>chassis</robot_base_frame>
+        </plugin>
+
+        <!-- Include cameras. -->
+        <include>
+            <uri>model://camera_array</uri>
+            <name>cameras</name>
+            <pose>0 0 0.64574 0 -0 0</pose>
+        </include>
+
+        <joint name="front_camera" type="fixed">
+            <parent>cart</parent>
+            <child>cameras::camera_front</child>
+        </joint>
+        <joint name="left_camera" type="fixed">
+            <parent>cart</parent>
+            <child>cameras::camera_left</child>
+        </joint>
+        <joint name="right_camera" type="fixed">
+            <parent>cart</parent>
+            <child>cameras::camera_right</child>
+        </joint>
+    </model>
+</sdf>

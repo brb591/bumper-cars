@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <sdf version="1.7">
-    <model name="torus cart wheels">
-        <link name="left wheel">
+    <model name="torus_cart_wheels">
+        <link name="left_wheel">
             <pose>0.362570 0.343895 0.06 1.5707 -0 0</pose>
             <gravity>0</gravity>
 
@@ -16,7 +16,7 @@
                 </inertia>
             </inertial>
 
-            <visual name="visual left wheel">
+            <visual name="visual_left_wheel">
                 <cast_shadows>0</cast_shadows>
 
                 <geometry>
@@ -27,7 +27,7 @@
                 </geometry>
             </visual>
 
-            <collision name="collision left wheel">
+            <collision name="collision_left_wheel">
                 <geometry>
                     <cylinder>
                         <radius>0.06</radius>
@@ -37,7 +37,7 @@
             </collision>
         </link>
 
-        <link name="right wheel">
+        <link name="right_wheel">
             <pose>0.362570 -0.343895 0.06 1.5707 -0 0</pose>
             <gravity>0</gravity>
 
@@ -52,7 +52,7 @@
                 </inertia>
             </inertial>
 
-            <visual name="visual right wheel">
+            <visual name="visual_right_wheel">
                 <cast_shadows>0</cast_shadows>
 
                 <geometry>
@@ -63,7 +63,7 @@
                 </geometry>
             </visual>
 
-            <collision name="collision right wheel">
+            <collision name="collision_right_wheel">
                 <geometry>
                     <cylinder>
                         <radius>0.06</radius>
@@ -73,11 +73,11 @@
             </collision>
         </link>
 
-        <link name="rear wheel">
+        <link name="rear_wheel">
             <pose>-0.5 0 0.06 0 -0 0</pose>
             <gravity>0</gravity>
 
-            <visual name="visual rear wheel">
+            <visual name="visual_rear_wheel">
                 <cast_shadows>0</cast_shadows>
 
                 <geometry>
@@ -87,7 +87,7 @@
                 </geometry>
             </visual>
 
-            <collision name="collision rear wheel">
+            <collision name="collision_rear_wheel">
                 <geometry>
                     <sphere>
                         <radius>0.06</radius>

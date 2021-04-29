@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+    <model name="arena">
+        <pose>0 0 0.0001 0 0 0</pose>
+        <static>1</static>
+
+        <link name="arena_link">
+
+            <visual name="visual_arena">
+                <geometry>
+                    <mesh><uri>model://arena2/meshes/arena.dae</uri></mesh>
+                </geometry>
+            </visual>
+
+            <collision name="collision_arena">
+                <geometry>
+                    <mesh><uri>model://arena2/meshes/arena.dae</uri></mesh>
+                </geometry>
+            </collision>
+        </link>
+    </model>
+</sdf>
