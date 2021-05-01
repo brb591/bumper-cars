@@ -37,7 +37,6 @@ Camera settings match the training images.
                 </camera>
 
                 <plugin name="front_camera_controller" filename="libgazebo_ros_camera.so">
-                    <ros></ros>
                 </plugin>
             </sensor>
         </link>
@@ -72,7 +71,6 @@ Camera settings match the training images.
                 </camera>
 
                 <plugin name="left_camera_controller" filename="libgazebo_ros_camera.so">
-                    <ros></ros>
                 </plugin>
             </sensor>
         </link>
@@ -107,7 +105,6 @@ Camera settings match the training images.
                 </camera>
 
                 <plugin name="right_camera_controller" filename="libgazebo_ros_camera.so">
-                    <ros></ros>
                 </plugin>
             </sensor>
         </link>
