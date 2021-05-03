@@ -6,15 +6,14 @@ Camera settings match the training images.
 -->
 
 <sdf version="1.7">
-    <model name="camera array">
-        <link name="camera front">
+    <model name="camera_array">
+        <link name="camera_front">
             <pose>0 0 0 0 0.17 0</pose>
             <gravity>0</gravity>
 
-            <sensor name="camera front sensor" type="camera">
+            <sensor name="camera_front_sensor" type="camera">
                 <always_on>1</always_on>
                 <update_rate>12</update_rate>
-                <visualize>1</visualize>
 
                 <camera>
                     <horizontal_fov>0.69</horizontal_fov>
@@ -37,20 +36,18 @@ Camera settings match the training images.
                     </noise>
                 </camera>
 
-                <plugin name="camera controller" filename="libgazebo_ros_camera.so">
-                    <ros><namespace>camera front controller</namespace></ros>
+                <plugin name="front_camera_controller" filename="libgazebo_ros_camera.so">
                 </plugin>
             </sensor>
         </link>
 
-        <link name="camera left">
+        <link name="camera_left">
             <pose>0 0 0 0 0.17 1.92</pose>
             <gravity>0</gravity>
 
-            <sensor name="camera left sensor" type="camera">
+            <sensor name="camera_left_sensor" type="camera">
                 <always_on>1</always_on>
                 <update_rate>12</update_rate>
-                <visualize>1</visualize>
 
                 <camera>
                     <horizontal_fov>0.69</horizontal_fov>
@@ -73,20 +70,18 @@ Camera settings match the training images.
                     </noise>
                 </camera>
 
-                <plugin name="camera controller" filename="libgazebo_ros_camera.so">
-                    <ros><namespace>camera left controller</namespace></ros>
+                <plugin name="left_camera_controller" filename="libgazebo_ros_camera.so">
                 </plugin>
             </sensor>
         </link>
 
-        <link name="camera right">
+        <link name="camera_right">
             <pose>0 0 0 0 0.17 -1.92</pose>
             <gravity>0</gravity>
 
-            <sensor name="camera right sensor" type="camera">
+            <sensor name="camera_right_sensor" type="camera">
                 <always_on>1</always_on>
                 <update_rate>12</update_rate>
-                <visualize>1</visualize>
 
                 <camera>
                     <horizontal_fov>0.69</horizontal_fov>
@@ -109,8 +104,7 @@ Camera settings match the training images.
                     </noise>
                 </camera>
 
-                <plugin name="camera controller" filename="libgazebo_ros_camera.so">
-                    <ros><namespace>camera right controller</namespace></ros>
+                <plugin name="right_camera_controller" filename="libgazebo_ros_camera.so">
                 </plugin>
             </sensor>
         </link>
