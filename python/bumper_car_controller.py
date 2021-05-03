@@ -4,12 +4,15 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 from sensor_msgs.msg import CameraInfo
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image as ImageMsg
 from geometry_msgs.msg import Twist
 from rclpy.qos import qos_profile_sensor_data
 from cv_bridge import CvBridge
 import cv2
 import random
+import torch
+from torchvision import transforms
+from PIL import Image
 
 
 class BumperCarController(Node):
@@ -24,10 +27,17 @@ class BumperCarController(Node):
         self.current_left_frame = None
         self.x = 0.0
         self.z = 0.0
+        self.cuda = torch.cuda.is_available()
+        self.model = None
+        self.classes_names = ["NotOk" , "Ok"]
+        self.transforms = transforms.Compose([transforms.Resize(255),
+                                    transforms.CenterCrop(224),
+                                    transforms.ToTensor(),
+                                    transforms.Normalize([0.485, 0.456, 0.406],
+                                    [0.229, 0.224, 0.225])])
 
         self.br = CvBridge()
 
-        print('subscribing to notifications')
         # Subscribe to arena notifications
         self.notification_subscription = self.create_subscription(
             String,
@@ -39,7 +49,7 @@ class BumperCarController(Node):
 
         # Subscribe to the front camera
         self.front_camera_subscription = self.create_subscription(
-            Image,
+            ImageMsg,
             'camera_front_sensor/image_raw',
             self.front_camera_callback,
             qos_profile_sensor_data)
@@ -48,7 +58,7 @@ class BumperCarController(Node):
 
         # Subscribe to the right camera
         self.right_camera_subscription = self.create_subscription(
-            Image,
+            ImageMsg,
             'camera_right_sensor/image_raw',
             self.right_camera_callback,
             qos_profile_sensor_data)
@@ -57,7 +67,7 @@ class BumperCarController(Node):
 
         # Subscribe to the left camera
         self.left_camera_subscription = self.create_subscription(
-            Image,
+            ImageMsg,
             'camera_left_sensor/image_raw',
             self.left_camera_callback,
             qos_profile_sensor_data)
@@ -72,6 +82,12 @@ class BumperCarController(Node):
         if msg.data == 'begin_game':
             if self.active == False:
                 self.get_logger().info('Activating!')
+                if self.model == None:
+                    self.model = torch.load('model/model-ok-notok.pt')
+                    if self.cuda:
+                        self.model.cuda()
+                        self.model.eval()
+                    self.get_logger().info('Loaded model')
             self.active = True
         elif msg.data == 'end_game':
             if self.active == True:
@@ -89,6 +105,7 @@ class BumperCarController(Node):
     # Called when the front camera receives a frame
     def front_camera_callback(self, data):
         self.current_front_frame = cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR)
+        #self.current_front_frame = Image.fromarray(cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR))
         # Only if currently active
         if self.active == True:
             self.process()
@@ -103,19 +120,54 @@ class BumperCarController(Node):
     
     # Process the current camera frame(s) and take action
     def process(self):
-        # This is placeholder code until we have actual processing code
         output = random.randrange(100)
-        if output < 5:
-            # With 5% probability, we will actually do something
+        if output < 25:
+            # With 25% probability, we will actually do something
 
-            # Favor forward movement
-            speed = (random.randrange(100) - 25) * 0.02
+            front_ok = self.check_direction('front')
+            left_ok = self.check_direction('left')
+            right_ok = self.check_direction('right')
+            self.get_logger().info('Front: ' + front_ok + ' Left: ' + left_ok + ' Right: ' + right_ok)
 
-            # Left or Right should be equally distributed
-            direction = (random.randrange(100) - 50) * 0.02
-            self.get_logger().info('Movement X: %f Z: %f'%(speed, direction))
-            self.update_movement(speed, direction)
-        # End of placeholder code
+            # At the present time, a negative speed means go forward and a positive direction means go right
+
+            # Choose a random for movement speed
+            forward_speed = random.randrange(100) * 0.02 * -1.0
+
+            # The order that we check determines the movement priority
+            if front_ok == 'Ok':
+                # Move forward
+                direction = 0.0
+            elif right_ok == 'Ok':
+                # Move to the right
+                direction = random.randrange(100) * 0.02
+            elif left_ok == 'Ok':
+                # Move to the left
+                direction = random.randrange(100) * 0.02 * -1.0
+            else:
+                # Nothing is safe, go backwards!
+                forward_speed = forward_speed * -1.0
+                # Left or Right should be equally distributed
+                direction = (random.randrange(100) - 50) * 0.02
+
+            self.get_logger().info('Movement X: %f Z: %f'%(forward_speed, direction))
+            self.update_movement(forward_speed, direction)
+
+    
+    def check_direction(self, direction):
+        if direction == 'right':
+            image = Image.fromarray(self.current_right_frame)
+        elif direction == 'left':
+            image = Image.fromarray(self.current_left_frame)
+        else:
+            image = Image.fromarray(self.current_front_frame)
+        
+        image = self.transforms(image)
+        image = image.unsqueeze(0)
+        data = image.cuda()
+        output = self.model.forward(data)
+        _, preds = torch.max(output, 1)
+        return self.classes_names[preds.item()]
             
     
     # Change the movement of the bumper car
