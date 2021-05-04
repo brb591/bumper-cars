@@ -16,6 +16,9 @@ from PIL import Image
 
 
 class BumperCarController(Node):
+    #
+    #   Class initializer
+    #
     def __init__(self, namespace_name, team_name):
         super().__init__('controller', namespace=namespace_name)
 
@@ -29,7 +32,7 @@ class BumperCarController(Node):
         self.z = 0.0
         self.cuda = torch.cuda.is_available()
         self.model = None
-        self.classes_names = ["NotOk" , "Ok"]
+        self.classes_names = [False , True]
         self.transforms = transforms.Compose([transforms.Resize(255),
                                     transforms.CenterCrop(224),
                                     transforms.ToTensor(),
@@ -77,17 +80,20 @@ class BumperCarController(Node):
         # Create a publisher for sending movement instructions
         self.movement_publisher = self.create_publisher(Twist, 'cmd_car', 10)
 
+    #
     # Called when the arena sends a notification to all bumper cars
+    #
     def notification_callback(self, msg):
+        if msg.data == 'prepare_cart':
+            if self.model is None:
+                self.model = torch.load('model/model-ok-notok.pt')
+                if self.cuda:
+                    self.model.cuda()
+                    self.model.eval()
+                self.get_logger().info('Loaded model')
         if msg.data == 'begin_game':
             if self.active == False:
                 self.get_logger().info('Activating!')
-                if self.model == None:
-                    self.model = torch.load('model/model-ok-notok.pt')
-                    if self.cuda:
-                        self.model.cuda()
-                        self.model.eval()
-                    self.get_logger().info('Loaded model')
             self.active = True
         elif msg.data == 'end_game':
             if self.active == True:
@@ -102,7 +108,9 @@ class BumperCarController(Node):
             self.update_movement(0.0, 0.0)
             rclpy.utilities.try_shutdown()
 
+    #
     # Called when the front camera receives a frame
+    #
     def front_camera_callback(self, data):
         self.current_front_frame = cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR)
         #self.current_front_frame = Image.fromarray(cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR))
@@ -110,38 +118,43 @@ class BumperCarController(Node):
         if self.active == True:
             self.process()
     
+    #
     # Called when the right camera receives a frame
+    #
     def right_camera_callback(self, data):
         self.current_right_frame = cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR)
     
+    #
     # Called when the left camera receives a frame
+    #
     def left_camera_callback(self, data):
         self.current_left_frame = cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR)
     
-    # Process the current camera frame(s) and take action
+    #
+    # Process the current camera frames and take action
+    #
     def process(self):
-        output = random.randrange(100)
-        if output < 25:
+        if random.randrange(100) < 25:
             # With 25% probability, we will actually do something
 
             front_ok = self.check_direction('front')
             left_ok = self.check_direction('left')
             right_ok = self.check_direction('right')
-            self.get_logger().info('Front: ' + front_ok + ' Left: ' + left_ok + ' Right: ' + right_ok)
+            self.get_logger().info("Front: %r  Left: %r Right: %r" % (front_ok, left_ok, right_ok))
 
             # At the present time, a negative speed means go forward and a positive direction means go right
 
-            # Choose a random for movement speed
+            # Choose a random forward movement speed
             forward_speed = random.randrange(100) * 0.02 * -1.0
 
             # The order that we check determines the movement priority
-            if front_ok == 'Ok':
+            if front_ok:
                 # Move forward
                 direction = 0.0
-            elif right_ok == 'Ok':
+            elif right_ok:
                 # Move to the right
                 direction = random.randrange(100) * 0.02
-            elif left_ok == 'Ok':
+            elif left_ok:
                 # Move to the left
                 direction = random.randrange(100) * 0.02 * -1.0
             else:
@@ -153,7 +166,11 @@ class BumperCarController(Node):
             self.get_logger().info('Movement X: %f Z: %f'%(forward_speed, direction))
             self.update_movement(forward_speed, direction)
 
-    
+    #
+    #   Apply our model to the requested image and return True
+    #       if it is Ok to move in that direction, and False
+    #       otherwise.
+    #
     def check_direction(self, direction):
         if direction == 'right':
             image = Image.fromarray(self.current_right_frame)
@@ -169,8 +186,10 @@ class BumperCarController(Node):
         _, preds = torch.max(output, 1)
         return self.classes_names[preds.item()]
             
-    
-    # Change the movement of the bumper car
+    #
+    #   Change the movement of the bumper car by sending
+    #       a message via ROS2
+    #
     def update_movement(self, forward_speed, drive_angle):
         self.x = forward_speed
         self.z = drive_angle
@@ -186,10 +205,13 @@ def main(args=None):
     car_name = sys.argv[1]
     team_name = sys.argv[2]
 
+    # Initialize the ROS2 interface
     rclpy.init(args=args)
     
+    # Initialize the bumper car controller
     bumper_car = BumperCarController(car_name, team_name)
 
+    # Allow ROS2 to manage data into and out of this program
     rclpy.spin(bumper_car)
 
     print('Destroying Node')
