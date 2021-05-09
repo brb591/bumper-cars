@@ -1,6 +1,6 @@
 # Create a Gazebo world with multiple cars
 
-#### Note: All commands are in the `python` director, and all terminal windows have had `source /opt/ros/foxy/setup.bash` run.
+#### Note: All commands are in the `python` directory, and all terminal windows have had `source /opt/ros/foxy/setup.bash` run.
 
 ## Start the simulation: create the arena and populate the bumper cars
 The current launch file creates 4 bumper cars, one of each color.  The bumper cars are placed on two different teams.
@@ -9,8 +9,13 @@ export BUMPER_CAR_MODEL_PATH=<The path of the model directory on your computer!>
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:$BUMPER_CAR_MODEL_PATH
 ros2 launch world.launch.py
 ```
+## Prepare the carts
+The carts must load their trained models.  Each cart maintains its own model.  This architectural pattern allows for a future in which various carts could have different models and thus one model may compete against another model.  This program sends a ```prepare_cart``` message to the ```arena/notifications``` topic, which all carts receive at the same time.
+```
+python3 prepare_carts.py
+```
 ## Start the game
-The cars are set to inactive by default.  They do nothing until they are made active.  This program sends a ```begin_game``` message to the ```arena/notifications``` topic, which all cars receive at the same time.  This makes them active and they will then start processing the camera feed.  The code, as written, will make each car randomly make movements.  This should be replaced by actual code to process the camera feed and react to it.
+The cars are set to inactive by default.  They do nothing until they are made active.  This program sends a ```begin_game``` message to the ```arena/notifications``` topic, which all carts receive at the same time.  This makes them active and they will then start processing the camera feed.  The code, as written, will make each car randomly make movements.  This should be replaced by actual code to process the camera feed and react to it.
 ```
 python3 start_game.py
 ```

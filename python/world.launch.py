@@ -26,7 +26,7 @@ def generate_launch_description():
 
         # The first cart
         ExecuteProcess(
-            cmd=['python3', 'spawn_bumper_car.py', 'red_darkblue', 'cart1', '/cart1', '-2', '0', '0', '0'],
+            cmd=['python3', 'spawn_bumper_car.py', 'red_darkblue', 'cart1', '/cart1', '-3', '0', '0', '0'],
             output='screen'),
         ExecuteProcess(
             cmd=['python3', 'bumper_car_controller.py', 'cart1', 'team1'],
@@ -34,7 +34,7 @@ def generate_launch_description():
         
         # The second cart
         ExecuteProcess(
-            cmd=['python3', 'spawn_bumper_car.py', 'lime_darkblue', 'cart2', '/cart2', '4', '0', '0', '0'],
+            cmd=['python3', 'spawn_bumper_car.py', 'lime_darkblue', 'cart2', '/cart2', '3', '0', '0', '0'],
             output='screen'),
         ExecuteProcess(
             cmd=['python3', 'bumper_car_controller.py', 'cart2', 'team1'],
@@ -46,13 +46,5 @@ def generate_launch_description():
             output='screen'),
         ExecuteProcess(
             cmd=['python3', 'bumper_car_controller.py', 'cart3', 'team2'],
-            output='screen'),
-        
-        # The fourth cart
-        ExecuteProcess(
-            cmd=['python3', 'spawn_bumper_car.py', 'lime_yellow', 'cart4', '/cart4', '2', '0', '0', '-1.5707'],
-            output='screen'),
-        ExecuteProcess(
-            cmd=['python3', 'bumper_car_controller.py', 'cart4', 'team2'],
             output='screen'),
     ])
