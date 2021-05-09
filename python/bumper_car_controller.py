@@ -86,17 +86,17 @@ class BumperCarController(Node):
     def notification_callback(self, msg):
         if msg.data == 'prepare_cart':
             if self.model is None:
-                self.model = torch.load('model/model-ok-notok.pt')
-                if self.cuda:
-                    self.model.cuda()
-                    self.model.eval()
+                self.load_model()
                 self.get_logger().info('Loaded model')
         if msg.data == 'begin_game':
-            if self.active == False:
+            if not self.active:
                 self.get_logger().info('Activating!')
+                if self.model is None:
+                    self.load_model()
+                    self.get_logger().info('Loaded model')
             self.active = True
         elif msg.data == 'end_game':
-            if self.active == True:
+            if self.active:
                 self.get_logger().info('Deactivating!')
             self.active = False
             # Stop the bumper car, if it is moving
@@ -198,6 +198,16 @@ class BumperCarController(Node):
         msg.linear.x = self.x
         msg.angular.z = self.z
         self.movement_publisher.publish(msg)
+    
+    #
+    #   Load the model
+    #
+    #
+    def load_model(self):
+        self.model = torch.load('model/model-ok-notok.pt')
+        if self.cuda:
+            self.model.cuda()
+            self.model.eval()
 
 
 
