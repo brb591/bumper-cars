@@ -32,7 +32,6 @@ class BumperCarController(Node):
         self.z = 0.0
         self.cuda = torch.cuda.is_available()
         self.model = None
-        self.classes_names = [False , True]
         self.transforms = transforms.Compose([transforms.Resize(255),
                                     transforms.CenterCrop(224),
                                     transforms.ToTensor(),
@@ -184,7 +183,7 @@ class BumperCarController(Node):
         data = image.cuda()
         output = self.model.forward(data)
         _, preds = torch.max(output, 1)
-        return self.classes_names[preds.item()]
+        return preds.item() > 0
             
     #
     #   Change the movement of the bumper car by sending
