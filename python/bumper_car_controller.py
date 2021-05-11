@@ -112,7 +112,6 @@ class BumperCarController(Node):
     #
     def front_camera_callback(self, data):
         self.current_front_frame = cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR)
-        #self.current_front_frame = Image.fromarray(cv2.cvtColor(self.br.imgmsg_to_cv2(data), cv2.COLOR_RGB2BGR))
         # Only if currently active
         if self.active == True:
             self.process()
