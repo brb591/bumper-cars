@@ -1,0 +1,22 @@
+# Not included are the ROS2 requirements, which are installed when you properly install the full ROS2 setup
+
+# python/bumper_car_controller.py: 15
+Pillow == 7.0.0
+
+# python/create_arena.py: 5
+# python/spawn_bumper_car.py: 6
+# python/world.launch.py: 3
+ament_index_python == 1.0.2
+
+# python/world.launch.py: 4,5,6,7,8
+launch == 0.10.5
+
+# python/bumper_car_controller.py: 11
+# python/view_camera_feed.py: 9
+opencv_python == 4.5.1.48
+
+# python/bumper_car_controller.py: 13
+torch == 1.8.1
+
+# python/bumper_car_controller.py: 14
+torchvision == 0.9.1
