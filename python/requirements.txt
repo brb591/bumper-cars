@@ -1,7 +1,7 @@
 # Not included are the ROS2 requirements, which are installed when you properly install the full ROS2 setup
 
 # python/bumper_car_controller.py: 15
-Pillow == 7.0.0
+Pillow >= 8.1.2
 
 # python/create_arena.py: 5
 # python/spawn_bumper_car.py: 6
